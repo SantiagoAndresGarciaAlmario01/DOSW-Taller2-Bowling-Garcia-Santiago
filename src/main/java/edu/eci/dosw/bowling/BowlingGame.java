@@ -14,6 +14,9 @@ public class BowlingGame {
     }
 
     public void roll(int pins) {
+        if (pins < 0) {
+            throw new IllegalArgumentException("pins no puede ser negativo: " + pins);
+        }
         Frame frame = new Frame();
         frame.addRoll(pins);
         frames.add(frame);
