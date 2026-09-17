@@ -1,9 +1,10 @@
 package edu.eci.dosw.bowling;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class BowlingGameTest {
 
@@ -16,5 +17,16 @@ class BowlingGameTest {
 
         assertEquals(1, game.getFrames().size());
         assertEquals(0, game.getFrames().get(0).getRolls().get(0));
+    }
+
+    @Test
+    @DisplayName("A2: roll(-1) - valor negativo - lanza IllegalArgumentException")
+    void rollNegativePins_throwsException() {
+        BowlingGame game = new BowlingGame();
+ 
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> game.roll(-1)
+        );
     }
 }
