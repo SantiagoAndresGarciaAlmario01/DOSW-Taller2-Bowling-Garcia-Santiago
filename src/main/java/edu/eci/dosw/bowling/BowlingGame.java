@@ -13,8 +13,10 @@ public class BowlingGame {
         this.currentFrame = 0;
     }
 
-
     public void roll(int pins) {
+        Frame frame = new Frame();
+        frame.addRoll(pins);
+        frames.add(frame);
     }
 
     public int score() {
