@@ -23,10 +23,21 @@ class BowlingGameTest {
     @DisplayName("A2: roll(-1) - valor negativo - lanza IllegalArgumentException")
     void rollNegativePins_throwsException() {
         BowlingGame game = new BowlingGame();
- 
+
         assertThrows(
             IllegalArgumentException.class,
             () -> game.roll(-1)
+        );
+    }
+
+    @Test
+    @DisplayName("A3: roll(11) - valor mayor a 10 - lanza IllegalArgumentException")
+    void rollPinsAboveTen_throwsException() {
+        BowlingGame game = new BowlingGame();
+
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> game.roll(11)
         );
     }
 }
