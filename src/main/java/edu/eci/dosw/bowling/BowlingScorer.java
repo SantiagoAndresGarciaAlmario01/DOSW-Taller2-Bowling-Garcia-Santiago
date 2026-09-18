@@ -30,10 +30,14 @@ public class BowlingScorer {
     }
 
     private int firstRollOfNextFrame(List<Frame> frames, int index) {
-        if (index + 1 >= frames.size()) {
-            return 0;
+        if (index + 1 < frames.size()) {
+            return frames.get(index + 1).getRolls().get(0);
         }
-        return frames.get(index + 1).getRolls().get(0);
+        List<Integer> rolls = frames.get(index).getRolls();
+        if (rolls.size() >= 3) {
+            return rolls.get(2);
+        }
+        return 0;
     }
 
     private int nextTwoRolls(List<Frame> frames, int index) {
