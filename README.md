@@ -1,1 +1,131 @@
-# DOSW-Taller2-Bowling-Garcia-Santiago
+# DOSW - Taller 2 - Bowling TDD
+
+## 1. Identificación
+
+- **Nombre completo**: Santiago Andrés García Almario
+- **Código estudiantil**: _1000095651_
+- **Correo institucional**: _santiago.garcia-a@mail.escuelaing.edu.co_
+
+## 2. Descripción
+
+Este proyecto implementa, usando TDD puro (ciclo RED → GREEN → REFACTOR), el motor de puntuación de un juego de bowling para un solo jugador.
+
+### Reglas implementadas
+
+- Un juego tiene 10 frames. En cada frame normal el jugador tira hasta 2 veces, salvo que haga strike en el primer tiro.
+- **Strike**: derribar los 10 pinos en el primer tiro de un frame. Puntúa 10 + los 2 tiros siguientes.
+- **Spare**: derribar los 10 pinos en los 2 tiros de un frame. Puntúa 10 + el tiro siguiente.
+- **Frame 10**: puede recibir hasta 3 tiros si hay strike o spare (tiros de bono).
+- Validaciones: pines fuera de rango (0-10), suma de 2 tiros de un frame no puede superar 10, no se puede tirar después de que el juego terminó, no se puede pedir el puntaje de un juego incompleto.
+
+### Responsabilidades de cada clase
+
+| Clase | Responsabilidad |
+|---|---|
+| `Frame` | Representa un frame individual: guarda sus tiros y sabe si es strike o spare. |
+| `BowlingGame` | Orquesta el juego: valida y registra tiros (`roll`), sabe si el juego terminó (`isComplete`) y expone el puntaje final (`score`), delegando el cálculo. |
+| `BowlingScorer` | Clase sin estado que recibe la lista de frames ya jugados y calcula el puntaje total aplicando los bonos de spare y strike. |
+
+## 3. Evidencia TDD
+
+El historial completo de commits sigue la convención:
+
+- `test: RED - ...` → prueba que falla antes de implementar
+- `feat: GREEN - ...` → implementación mínima que hace pasar la prueba
+- `refactor: ...` → mejora de diseño sin cambiar comportamiento observable
+
+### Ejemplo de ciclo completo (caso A2 — `roll(-1)` lanza `IllegalArgumentException`)
+
+**RED** (commit `test: RED - roll(-1) lanza IllegalArgumentException`):
+
+```
+_[COMPLETAR: pegar aquí la captura de consola en rojo, BUILD FAILURE]_
+```
+
+**GREEN** (commit `feat: GREEN - valida pines negativos`):
+
+```
+_[COMPLETAR: pegar aquí la captura de consola en verde, BUILD SUCCESS]_
+```
+
+### Ciclo de REFACTOR
+
+Commit `refactor: elimina campo no usado, codigo muerto y duplicacion; extrae metodos con nombres claros`, aplicado después de completar los Módulos A, B y C:
+
+- Se eliminó el campo `currentFrame` en `BowlingGame` (nunca se usaba).
+- Se extrajo el método `lastFrame()` para eliminar la duplicación de `frames.get(frames.size() - 1)`.
+- `BowlingScorer` pasó de instanciarse en cada llamada a `score()` a ser un colaborador fijo (campo).
+- Se eliminó una rama de código muerto en `BowlingScorer.firstRollOfNextFrame()` que ya no se alcanzaba tras el fix del caso B7.
+- Se extrajo `frameScore()` en `BowlingScorer.calculate()` para separar el recorrido de la lógica de puntaje por frame.
+
+Todas las 22 pruebas se mantuvieron en verde antes y después del refactor.
+
+## 4. JaCoCo — Cobertura de código
+
+```
+mvn clean verify
+```
+
+**Resultado**: `All coverage checks have been met.` — `BUILD SUCCESS`.
+
+| Métrica | Cobertura |
+|---|---|
+| Líneas | 100% |
+| Ramas (branches) | 97% (2 de 68 ramas sin cubrir) |
+
+Captura del reporte (`target/site/jacoco/index.html`):
+
+```
+_[COMPLETAR: pegar aquí docs/evidence/jacoco-coverage.png]_
+```
+
+**Qué pruebas subieron la cobertura**: los casos A6/A7/A8 (detección de strike, spare y tiros de bono del frame 10) y B3-B7 (bonos de spare, strike y juego perfecto) fueron los que forzaron a cubrir las ramas más complejas — en particular la distinción entre frame 10 abierto/cerrado y el cálculo de bono cuando el strike/spare está a 1 o 2 frames de distancia.
+
+## 5. SonarQube — Análisis estático
+
+```
+mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+  -Dsonar.projectKey=bowling-tdd \
+  -Dsonar.projectName='Bowling TDD' \
+  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.token=$SONAR_TOKEN
+```
+
+**Seguridad**: el token se pasó por variable de entorno / línea de comandos, nunca se guardó en el repositorio.
+
+Captura del dashboard (cobertura, issues, Quality Gate):
+
+```
+_[COMPLETAR: pegar aquí la captura del dashboard de SonarQube]_
+```
+
+Quality Gate: _[COMPLETAR: Passed / Failed]_
+
+Issues relevantes corregidos: _[COMPLETAR — por ejemplo, si Sonar marcó el campo `currentFrame` como no usado antes del refactor, o algún otro hallazgo]_
+
+## 6. Pull Requests
+
+| PR | Fecha de merge | Módulo que cubre |
+|---|---|---|
+| _[link]_ | _[fecha]_ | Módulo A - `BowlingGame.roll()` |
+| _[link]_ | _[fecha]_ | Módulo B - `BowlingScorer.calculate()` |
+| _[link]_ | _[fecha]_ | Módulo C - `BowlingGame.isComplete()` |
+| _[link]_ | _[fecha]_ | Refactor + cobertura + Sonar |
+
+## 7. Reflexión técnica
+
+**1. ¿Qué caso edge del Bowling fue el más difícil de implementar con TDD y por qué?**
+
+El frame 10 fue, por lejos, el más difícil — específicamente el caso A8 (aceptar hasta 3 tiros tras un strike). El problema no fue tanto escribir la prueba, sino que la solución obligó a redescubrir que `isStrike()` no podía derivarse del tamaño de la lista de tiros (`rolls.size() == 1`), porque en cuanto el frame 10 recibía tiros de bono ese tamaño dejaba de ser 1 y la marca de "fue strike" se perdía. Hubo que cambiar el diseño de `Frame` para que recordara el strike con un campo booleano persistente en vez de recalcularlo. Esto es un buen ejemplo de cómo TDD expone supuestos de diseño incorrectos apenas el caso de prueba los pone a prueba.
+
+**2. ¿Qué parte del código cambió durante REFACTOR sin modificar el comportamiento observable?**
+
+Se eliminó el campo `currentFrame` (nunca usado), se extrajo `lastFrame()` para quitar duplicación de `frames.get(frames.size() - 1)`, `BowlingScorer` pasó de crearse en cada llamada a `score()` a ser un campo fijo, y se eliminó una rama muerta en `BowlingScorer.firstRollOfNextFrame()` que dejó de alcanzarse después de que el cálculo del último frame se resolvió de forma distinta (caso B7). Las 22 pruebas existentes se usaron como red de seguridad: se corrieron antes y después del refactor y ninguna cambió de resultado.
+
+**3. ¿Qué casos de prueba descubriste al revisar el reporte de cobertura de JaCoCo que no habías considerado antes?**
+
+_[COMPLETAR una vez revises el detalle por clase del reporte — con 97% de cobertura de ramas, hay 2 ramas específicas sin cubrir; identifícalas en `target/site/jacoco/index.html` navegando a la clase correspondiente y decide si vale la pena agregar una prueba para ellas o si son casos genuinamente inalcanzables.]_
+
+**4. ¿Qué hallazgo de SonarQube produjo un cambio real en el código?**
+
+_[COMPLETAR una vez tengas el análisis de Sonar corriendo — por ejemplo, si marcó el campo `currentFrame` como no utilizado, o alguna otra recomendación de complejidad ciclomática o duplicación.]_
