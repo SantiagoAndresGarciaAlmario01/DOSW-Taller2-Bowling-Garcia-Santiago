@@ -1,6 +1,7 @@
 package edu.eci.dosw.bowling;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -101,5 +102,18 @@ class BowlingScorerTest {
         rollPerfectGame(game);
 
         assertEquals(300, game.score());
+    }
+
+    @Test
+    @DisplayName("B8: score() antes de completar el juego - lanza IllegalStateException")
+    void scoreBeforeGameComplete_throwsException() {
+        BowlingGame game = new BowlingGame();
+        game.roll(3);
+        game.roll(4);
+
+        assertThrows(
+            IllegalStateException.class,
+            () -> game.score()
+        );
     }
 }
