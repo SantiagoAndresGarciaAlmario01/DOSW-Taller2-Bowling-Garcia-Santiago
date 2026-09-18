@@ -44,4 +44,15 @@ class BowlingScorerTest {
         rollMany(game, 16, 0);
         assertEquals(16, game.score());
     }
+
+    @Test
+    @DisplayName("B4: strike en frame 1 y roll(4)+roll(3) - frame 1 puntua 10+4+3=17")
+    void strikeInFirstFrame_addsNextTwoRollsAsBonus() {
+        BowlingGame game = new BowlingGame();
+        game.roll(10);
+        game.roll(4);
+        game.roll(3);
+        rollMany(game, 16, 0);
+        assertEquals(24, game.score());
+    }
 }
