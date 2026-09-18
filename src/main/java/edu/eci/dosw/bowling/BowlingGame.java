@@ -17,9 +17,24 @@ public class BowlingGame {
         if (pins < 0 || pins > 10) {
             throw new IllegalArgumentException("pins fuera de rango: " + pins);
         }
-        Frame frame = new Frame();
-        frame.addRoll(pins);
-        frames.add(frame);
+
+        if (isCurrentFrameOpen()) {
+            Frame current = frames.get(frames.size() - 1);
+            int firstRoll = current.getRolls().get(0);
+            if (firstRoll + pins > 10) {
+                throw new IllegalArgumentException(
+                    "suma del frame excede 10: " + (firstRoll + pins));
+            }
+            current.addRoll(pins);
+        } else {
+            Frame frame = new Frame();
+            frame.addRoll(pins);
+            frames.add(frame);
+        }
+    }
+
+    private boolean isCurrentFrameOpen() {
+        return !frames.isEmpty() && frames.get(frames.size() - 1).getRolls().size() == 1;
     }
 
     public int score() {
