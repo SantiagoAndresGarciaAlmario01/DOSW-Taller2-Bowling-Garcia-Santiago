@@ -1,5 +1,6 @@
 package edu.eci.dosw.bowling;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BowlingScorer {
@@ -9,7 +10,9 @@ public class BowlingScorer {
             Frame frame = frames.get(i);
             List<Integer> rolls = frame.getRolls();
 
-            if (frame.isSpare()) {
+            if (frame.isStrike()) {
+                total += 10 + nextTwoRolls(frames, i);
+            } else if (frame.isSpare()) {
                 total += 10 + firstRollOfNextFrame(frames, i);
             } else {
                 total += sum(rolls);
@@ -31,5 +34,21 @@ public class BowlingScorer {
             return 0;
         }
         return frames.get(index + 1).getRolls().get(0);
+    }
+
+    private int nextTwoRolls(List<Frame> frames, int index) {
+        List<Integer> upcoming = new ArrayList<>();
+        for (int j = index + 1; j < frames.size() && upcoming.size() < 2; j++) {
+            for (int roll : frames.get(j).getRolls()) {
+                if (upcoming.size() < 2) {
+                    upcoming.add(roll);
+                }
+            }
+        }
+        int total = 0;
+        for (int roll : upcoming) {
+            total += roll;
+        }
+        return total;
     }
 }
