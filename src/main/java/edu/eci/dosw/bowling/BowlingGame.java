@@ -37,7 +37,11 @@ public class BowlingGame {
     }
 
     private boolean isCurrentFrameOpen() {
-        return !frames.isEmpty() && frames.get(frames.size() - 1).getRolls().size() == 1;
+        if (frames.isEmpty()) {
+            return false;
+        }
+        Frame last = frames.get(frames.size() - 1);
+        return last.getRolls().size() == 1 && !last.isStrike();
     }
 
     public int score() {
