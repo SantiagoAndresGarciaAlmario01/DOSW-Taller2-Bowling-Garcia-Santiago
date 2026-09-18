@@ -4,42 +4,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BowlingScorer {
+
     public int calculate(List<Frame> frames) {
         int total = 0;
         for (int i = 0; i < frames.size(); i++) {
-            Frame frame = frames.get(i);
-            List<Integer> rolls = frame.getRolls();
-
-            if (i == frames.size() - 1) {
-                total += sum(rolls);
-            } else if (frame.isStrike()) {
-                total += 10 + nextTwoRolls(frames, i);
-            } else if (frame.isSpare()) {
-                total += 10 + firstRollOfNextFrame(frames, i);
-            } else {
-                total += sum(rolls);
-            }
+            total += frameScore(frames, i);
         }
         return total;
     }
 
-    private int sum(List<Integer> rolls) {
-        int total = 0;
-        for (int roll : rolls) {
-            total += roll;
+    private int frameScore(List<Frame> frames, int index) {
+        Frame frame = frames.get(index);
+        boolean isLastFrame = index == frames.size() - 1;
+
+        if (isLastFrame) {
+            return sum(frame.getRolls());
         }
-        return total;
+        if (frame.isStrike()) {
+            return 10 + nextTwoRolls(frames, index);
+        }
+        if (frame.isSpare()) {
+            return 10 + firstRollOfNextFrame(frames, index);
+        }
+        return sum(frame.getRolls());
     }
 
     private int firstRollOfNextFrame(List<Frame> frames, int index) {
-        if (index + 1 < frames.size()) {
-            return frames.get(index + 1).getRolls().get(0);
-        }
-        List<Integer> rolls = frames.get(index).getRolls();
-        if (rolls.size() >= 3) {
-            return rolls.get(2);
-        }
-        return 0;
+        return frames.get(index + 1).getRolls().get(0);
     }
 
     private int nextTwoRolls(List<Frame> frames, int index) {
@@ -51,8 +42,12 @@ public class BowlingScorer {
                 }
             }
         }
+        return sum(upcoming);
+    }
+
+    private int sum(List<Integer> rolls) {
         int total = 0;
-        for (int roll : upcoming) {
+        for (int roll : rolls) {
             total += roll;
         }
         return total;
