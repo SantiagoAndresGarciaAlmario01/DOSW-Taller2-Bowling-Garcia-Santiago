@@ -14,6 +14,9 @@ public class BowlingGame {
     }
 
     public void roll(int pins) {
+        if (isComplete()) {
+            throw new IllegalStateException("el juego ya esta completo");
+        }
         if (pins < 0 || pins > 10) {
             throw new IllegalArgumentException("pins fuera de rango: " + pins);
         }
@@ -42,7 +45,7 @@ public class BowlingGame {
     }
 
     public boolean isComplete() {
-        return false;
+        return frames.size() >= 10 && !isCurrentFrameOpen();
     }
 
     public List<Frame> getFrames() { return List.copyOf(frames); }
