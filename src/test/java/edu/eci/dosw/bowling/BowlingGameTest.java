@@ -2,6 +2,7 @@ package edu.eci.dosw.bowling;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.DisplayName;
@@ -108,5 +109,13 @@ class BowlingGameTest {
 
         assertEquals(10, game.getFrames().size());
         assertEquals(3, game.getFrames().get(9).getRolls().size());
+    }
+
+    @Test
+    @DisplayName("C1: isComplete() al inicio del juego - false")
+    void isComplete_atStart_returnsFalse() {
+        BowlingGame game = new BowlingGame();
+
+        assertFalse(game.isComplete());
     }
 }
