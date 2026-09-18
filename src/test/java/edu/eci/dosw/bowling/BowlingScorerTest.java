@@ -32,4 +32,16 @@ class BowlingScorerTest {
 
         assertEquals(70, game.score());
     }
+
+    @Test
+    @DisplayName("B3: spare en frame 1 y siguiente tiro = 3 - frame 1 puntua 10+3=13")
+    void spareInFirstFrame_addsNextRollAsBonus() {
+        BowlingGame game = new BowlingGame();
+        game.roll(5);
+        game.roll(5);
+        game.roll(3);
+        game.roll(0);
+        rollMany(game, 16, 0);
+        assertEquals(16, game.score());
+    }
 }
