@@ -23,11 +23,7 @@ public class BowlingGame {
 
         if (isCurrentFrameOpen()) {
             Frame current = frames.get(frames.size() - 1);
-            int firstRoll = current.getRolls().get(0);
-            if (firstRoll + pins > 10) {
-                throw new IllegalArgumentException(
-                    "suma del frame excede 10: " + (firstRoll + pins));
-            }
+            validateFrameSum(current, pins);
             current.addRoll(pins);
         } else {
             Frame frame = new Frame();
@@ -36,12 +32,39 @@ public class BowlingGame {
         }
     }
 
+    private void validateFrameSum(Frame frame, int pins) {
+        if (frame.getRolls().size() == 1 && !frame.isStrike()) {
+            int firstRoll = frame.getRolls().get(0);
+            if (firstRoll + pins > 10) {
+                throw new IllegalArgumentException(
+                    "suma del frame excede 10: " + (firstRoll + pins));
+            }
+        }
+    }
+
     private boolean isCurrentFrameOpen() {
         if (frames.isEmpty()) {
             return false;
         }
         Frame last = frames.get(frames.size() - 1);
-        return last.getRolls().size() == 1 && !last.isStrike();
+        if (frames.size() < 10) {
+            return last.getRolls().size() == 1 && !last.isStrike();
+        }
+        return isTenthFrameOpen(last);
+    }
+
+    private boolean isTenthFrameOpen(Frame frame) {
+        int rollCount = frame.getRolls().size();
+        if (frame.isStrike()) {
+            return rollCount < 3;
+        }
+        if (rollCount == 1) {
+            return true;
+        }
+        if (frame.isSpare()) {
+            return rollCount < 3;
+        }
+        return false;
     }
 
     public int score() {
