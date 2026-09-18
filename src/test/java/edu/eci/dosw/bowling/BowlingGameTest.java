@@ -52,4 +52,19 @@ class BowlingGameTest {
             () -> game.roll(6)
         );
     }
+
+    @Test
+    @DisplayName("A5: roll() cuando el juego ya esta completo - lanza IllegalStateException")
+    void rollAfterGameComplete_throwsException() {
+        BowlingGame game = new BowlingGame();
+        for (int i = 0; i < 10; i++) {
+            game.roll(3);
+            game.roll(4);
+        }
+
+        assertThrows(
+            IllegalStateException.class,
+            () -> game.roll(2)
+        );
+    }
 }
