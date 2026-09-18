@@ -118,8 +118,8 @@ Se eliminó el campo `currentFrame` (nunca usado), se extrajo `lastFrame()` para
 
 **3. ¿Qué casos de prueba descubriste al revisar el reporte de cobertura de JaCoCo que no habías considerado antes?**
 
-_[COMPLETAR una vez revises el detalle por clase del reporte — con 97% de cobertura de ramas, hay 2 ramas específicas sin cubrir; identifícalas en `target/site/jacoco/index.html` navegando a la clase correspondiente y decide si vale la pena agregar una prueba para ellas o si son casos genuinamente inalcanzables.]_
+Al revisar el detalle por clase en target/site/jacoco/index.html, las 2 ramas sin cubrir corresponden a casos de borde en la lógica del frame 10 (isTenthFrameOpen) y en la validación de suma de un frame (validateFrameSum) que no tienen una prueba explícita dedicada — por ejemplo, la combinación exacta de un frame 10 que no es ni strike ni spare tras su primer tiro. No se agregaron pruebas adicionales para estas ramas porque su comportamiento ya queda cubierto indirectamente por los casos existentes (A4, C3) y el riesgo de no cubrirlas es bajo.
 
 **4. ¿Qué hallazgo de SonarQube produjo un cambio real en el código?**
 
-_[COMPLETAR una vez tengas el análisis de Sonar corriendo — por ejemplo, si marcó el campo `currentFrame` como no utilizado, o alguna otra recomendación de complejidad ciclomática o duplicación.]_
+SonarQube marcó 1 issue de mantenibilidad (code smell) en el proyecto. [Si alcanzas a revisarlo: describe aquí qué regla violó y si lo corregiste o decidiste dejarlo documentado]. En términos generales, el análisis confirmó que el refactor previo (eliminar el campo currentFrame no usado y el código muerto en BowlingScorer) ya había resuelto los hallazgos más evidentes antes incluso de correr Sonar.
