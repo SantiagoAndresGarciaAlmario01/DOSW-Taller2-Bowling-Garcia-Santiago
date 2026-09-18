@@ -38,15 +38,13 @@ El historial completo de commits sigue la convención:
 
 **RED** (commit `test: RED - roll(-1) lanza IllegalArgumentException`):
 
-```
-_[COMPLETAR: pegar aquí la captura de consola en rojo, BUILD FAILURE]_
-```
+<img width="722" height="266" alt="image" src="https://github.com/user-attachments/assets/06d8921e-94b1-407a-952e-7d1a3c1edefb" />
+
 
 **GREEN** (commit `feat: GREEN - valida pines negativos`):
 
-```
-_[COMPLETAR: pegar aquí la captura de consola en verde, BUILD SUCCESS]_
-```
+<img width="719" height="264" alt="image" src="https://github.com/user-attachments/assets/c05f8e8f-873e-450e-82f0-e28bee3d484a" />
+
 
 ### Ciclo de REFACTOR
 
@@ -75,9 +73,8 @@ mvn clean verify
 
 Captura del reporte (`target/site/jacoco/index.html`):
 
-```
-_[COMPLETAR: pegar aquí docs/evidence/jacoco-coverage.png]_
-```
+<img width="1134" height="181" alt="image" src="https://github.com/user-attachments/assets/7d00ca58-caf8-42d8-a140-32ac138f56be" />
+
 
 **Qué pruebas subieron la cobertura**: los casos A6/A7/A8 (detección de strike, spare y tiros de bono del frame 10) y B3-B7 (bonos de spare, strike y juego perfecto) fueron los que forzaron a cubrir las ramas más complejas — en particular la distinción entre frame 10 abierto/cerrado y el cálculo de bono cuando el strike/spare está a 1 o 2 frames de distancia.
 
@@ -95,13 +92,10 @@ mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
 
 Captura del dashboard (cobertura, issues, Quality Gate):
 
-```
-_[COMPLETAR: pegar aquí la captura del dashboard de SonarQube]_
-```
+<img width="1920" height="914" alt="image" src="https://github.com/user-attachments/assets/7cb44915-e54d-470b-a26a-e91b81006f82" />
 
-Quality Gate: _[COMPLETAR: Passed / Failed]_
 
-Issues relevantes corregidos: _[COMPLETAR — por ejemplo, si Sonar marcó el campo `currentFrame` como no usado antes del refactor, o algún otro hallazgo]_
+Quality Gate: Passed
 
 ## 6. Pull Requests
 
