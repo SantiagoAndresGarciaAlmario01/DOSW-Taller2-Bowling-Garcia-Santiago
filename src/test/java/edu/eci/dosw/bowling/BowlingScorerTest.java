@@ -55,4 +55,16 @@ class BowlingScorerTest {
         rollMany(game, 16, 0);
         assertEquals(24, game.score());
     }
+
+    @Test
+    @DisplayName("B5: dos strikes consecutivos y roll(5) - el bono del primer strike suma correctamente")
+    void twoConsecutiveStrikes_firstStrikeBonusSumsAcrossFrames() {
+        BowlingGame game = new BowlingGame();
+        game.roll(10);
+        game.roll(10);
+        game.roll(5);
+        game.roll(2);
+        rollMany(game, 14, 0);
+        assertEquals(49, game.score());
+    }
 }
