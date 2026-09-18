@@ -4,6 +4,12 @@ import java.util.List;
 
 public class BowlingScorer {
     public int calculate(List<Frame> frames) {
-        return 0;
+        int total = 0;
+        for (Frame frame : frames) {
+            for (int roll : frame.getRolls()) {
+                total += roll;
+            }
+        }
+        return total;
     }
 }

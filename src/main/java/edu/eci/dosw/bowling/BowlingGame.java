@@ -68,7 +68,10 @@ public class BowlingGame {
     }
 
     public int score() {
-        return 0;
+        if (!isComplete()) {
+            throw new IllegalStateException("el juego no esta completo");
+        }
+        return new BowlingScorer().calculate(frames);
     }
 
     public boolean isComplete() {
