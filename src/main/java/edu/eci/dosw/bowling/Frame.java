@@ -17,4 +17,8 @@ public class Frame {
     public boolean isStrike() {
         return rolls.size() == 1 && rolls.get(0) == 10;
     }
+
+    public boolean isSpare() {
+        return false;
+    }
 }

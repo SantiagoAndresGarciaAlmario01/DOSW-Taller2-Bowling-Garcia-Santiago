@@ -80,4 +80,14 @@ class BowlingGameTest {
         game.roll(5);
         assertEquals(2, game.getFrames().size());
     }
+
+    @Test
+    @DisplayName("A7: roll(5) + roll(5) - detecta spare")
+    void twoRollsSumTen_marksSpare() {
+        BowlingGame game = new BowlingGame();
+        game.roll(5);
+        game.roll(5);
+
+        assertTrue(game.getFrames().get(0).isSpare());
+    }
 }
