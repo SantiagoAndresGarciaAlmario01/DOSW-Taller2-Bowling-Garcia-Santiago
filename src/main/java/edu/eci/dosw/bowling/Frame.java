@@ -13,4 +13,8 @@ public class Frame {
     public List<Integer> getRolls() {
         return List.copyOf(rolls);
     }
+
+    public boolean isStrike() {
+        return rolls.size() == 1 && rolls.get(0) == 10;
+    }
 }

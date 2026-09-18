@@ -3,6 +3,7 @@ package edu.eci.dosw.bowling;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -66,5 +67,17 @@ class BowlingGameTest {
             IllegalStateException.class,
             () -> game.roll(2)
         );
+    }
+
+    @Test
+    @DisplayName("A6: roll(10) - detecta strike y avanza directamente al siguiente frame")
+    void rollTen_marksStrike_andAdvancesToNextFrame() {
+        BowlingGame game = new BowlingGame();
+        game.roll(10);
+
+        assertTrue(game.getFrames().get(0).isStrike());
+
+        game.roll(5);
+        assertEquals(2, game.getFrames().size());
     }
 }
