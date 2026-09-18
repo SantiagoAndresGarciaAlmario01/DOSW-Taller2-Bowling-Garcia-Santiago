@@ -42,6 +42,7 @@ class BowlingScorerTest {
         game.roll(3);
         game.roll(0);
         rollMany(game, 16, 0);
+
         assertEquals(16, game.score());
     }
 
@@ -53,6 +54,7 @@ class BowlingScorerTest {
         game.roll(4);
         game.roll(3);
         rollMany(game, 16, 0);
+
         assertEquals(24, game.score());
     }
 
@@ -65,6 +67,24 @@ class BowlingScorerTest {
         game.roll(5);
         game.roll(2);
         rollMany(game, 14, 0);
+
         assertEquals(49, game.score());
+    }
+
+    private void rollAllSpares(BowlingGame game, int lastBonus) {
+        for (int i = 0; i < 10; i++) {
+            game.roll(5);
+            game.roll(5);
+        }
+        game.roll(lastBonus);
+    }
+
+    @Test
+    @DisplayName("B6: todos spares y ultimo tiro = 5 - score debe ser 150")
+    void allSpares_scores150() {
+        BowlingGame game = new BowlingGame();
+        rollAllSpares(game, 5);
+
+        assertEquals(150, game.score());
     }
 }
