@@ -10,7 +10,9 @@ public class BowlingScorer {
             Frame frame = frames.get(i);
             List<Integer> rolls = frame.getRolls();
 
-            if (frame.isStrike()) {
+            if (i == frames.size() - 1) {
+                total += sum(rolls);
+            } else if (frame.isStrike()) {
                 total += 10 + nextTwoRolls(frames, i);
             } else if (frame.isSpare()) {
                 total += 10 + firstRollOfNextFrame(frames, i);
