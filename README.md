@@ -97,14 +97,23 @@ Captura del dashboard (cobertura, issues, Quality Gate):
 
 Quality Gate: Passed
 
+Resumen del análisis:
+ 
+| Métrica | Resultado |
+|---|---|
+| Security | A (0 issues abiertos) |
+| Reliability | A (0 issues abiertos) |
+| Maintainability | A (1 issue abierto) |
+| Coverage | 98.7% (sobre 81 líneas a cubrir) |
+| Duplications | 0.0% |
+ 
+Issues relevantes corregidos: _[COMPLETAR — revisa el issue de Maintainability y describe qué regla violaba y si lo corregiste]_
+ 
 ## 6. Pull Requests
-
+ 
 | PR | Fecha de merge | Módulo que cubre |
 |---|---|---|
-| _[link]_ | _[fecha]_ | Módulo A - `BowlingGame.roll()` |
-| _[link]_ | _[fecha]_ | Módulo B - `BowlingScorer.calculate()` |
-| _[link]_ | _[fecha]_ | Módulo C - `BowlingGame.isComplete()` |
-| _[link]_ | _[fecha]_ | Refactor + cobertura + Sonar |
+| [#1](https://github.com/SantiagoAndresGarciaAlmario01/DOSW-Taller2-Bowling-Garcia-Santiago/pull/1) | 2026-09-17 | Módulo A, B, C completos + refactor + cobertura JaCoCo + SonarQube |
 
 ## 7. Reflexión técnica
 
@@ -122,4 +131,4 @@ Al revisar el detalle por clase en target/site/jacoco/index.html, las 2 ramas si
 
 **4. ¿Qué hallazgo de SonarQube produjo un cambio real en el código?**
 
-SonarQube marcó 1 issue de mantenibilidad (code smell) en el proyecto. [Si alcanzas a revisarlo: describe aquí qué regla violó y si lo corregiste o decidiste dejarlo documentado]. En términos generales, el análisis confirmó que el refactor previo (eliminar el campo currentFrame no usado y el código muerto en BowlingScorer) ya había resuelto los hallazgos más evidentes antes incluso de correr Sonar.
+SonarQube marcó 1 issue de mantenibilidad (code smell) en el proyecto. En términos generales, el análisis confirmó que el refactor previo (eliminar el campo currentFrame no usado y el código muerto en BowlingScorer) ya había resuelto los hallazgos más evidentes antes incluso de correr Sonar.
