@@ -130,4 +130,57 @@ class BowlingGameTest {
 
         assertFalse(game.isComplete());
     }
+
+    @Test
+    @DisplayName("C3: 10 frames normales completos sin bonos - isComplete() true")
+    void isComplete_afterTenNormalFrames_returnsTrue() {
+        BowlingGame game = new BowlingGame();
+        for (int i = 0; i < 10; i++) {
+            game.roll(3);
+            game.roll(4);
+        }
+
+        assertTrue(game.isComplete());
+    }
+
+    @Test
+    @DisplayName("C4: spare en frame 10 con tiro de bono ejecutado - isComplete() true")
+    void isComplete_afterSpareInTenthFrameWithBonus_returnsTrue() {
+        BowlingGame game = new BowlingGame();
+        for (int i = 0; i < 9; i++) {
+            game.roll(3);
+            game.roll(4);
+        }
+        game.roll(5);
+        game.roll(5);
+        game.roll(4);
+
+        assertTrue(game.isComplete());
+    }
+
+    @Test
+    @DisplayName("C5: strike en frame 10 con 2 tiros de bono ejecutados - isComplete() true")
+    void isComplete_afterStrikeInTenthFrameWithTwoBonusRolls_returnsTrue() {
+        BowlingGame game = new BowlingGame();
+        for (int i = 0; i < 9; i++) {
+            game.roll(3);
+            game.roll(4);
+        }
+        game.roll(10);
+        game.roll(5);
+        game.roll(3);
+
+        assertTrue(game.isComplete());
+    }
+
+    @Test
+    @DisplayName("C6: juego perfecto tras el strike 12 - isComplete() true")
+    void isComplete_afterPerfectGame_returnsTrue() {
+        BowlingGame game = new BowlingGame();
+        for (int i = 0; i < 12; i++) {
+            game.roll(10);
+        }
+
+        assertTrue(game.isComplete());
+    }
 }
