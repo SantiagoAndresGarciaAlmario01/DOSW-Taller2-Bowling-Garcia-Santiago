@@ -19,6 +19,6 @@ public class Frame {
     }
 
     public boolean isSpare() {
-        return false;
+        return rolls.size() == 2 && rolls.get(0) + rolls.get(1) == 10;
     }
 }
